@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,9 @@ namespace Lab1.model
         public int Y1 { get; }
     }
 
-    public class State
+    public class State : IEnumerable<bool>
     {
         bool[,] state;
-        public bool[,] RawState { get { return state; } }
 
         int xSize;
         int ySize;
@@ -59,6 +59,11 @@ namespace Lab1.model
             this.state = state;
             xSize = state.GetLength(0);
             ySize = state.GetLength(1);
+        }
+
+        public bool this[int i, int j]
+        {
+            get { return state[i, j]; }
         }
 
         public State RotateCounterClockWise(Cursor cursor)
@@ -105,7 +110,7 @@ namespace Lab1.model
                     for (int j = 0; j < ySize; j++)
                     {
                         bool cell1 = state[i, j];
-                        bool cell2 = ((State)obj).RawState[i, j];
+                        bool cell2 = ((State)obj)[i, j];
                         if (cell1 != cell2) { return false; }
                     }
                 }
@@ -123,6 +128,16 @@ namespace Lab1.model
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
+        }
+
+        public IEnumerator<bool> GetEnumerator()
+        {
+            return state.Cast<bool>().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return state.GetEnumerator();
         }
 
         public static bool operator == (State x, State y)

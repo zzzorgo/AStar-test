@@ -22,7 +22,7 @@ namespace Lab1
     public partial class MainWindow : Window
     {
         int xSize = 4;
-        int ySize = 4;
+        int ySize = 3;
 
         public MainWindow()
         {
@@ -74,7 +74,7 @@ namespace Lab1
 
         private void ShowState(State state, UIElementCollection field)
         {
-            bool[] rawStateAsList = state.RawState.Cast<bool>().Select(b => b).ToArray();
+            bool[] rawStateAsList = state.Select(b => b).ToArray();
 
             for (int i = 0; i < rawStateAsList.Length; i++)
             {

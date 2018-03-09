@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,12 +75,22 @@ namespace Lab1.model
                 }
             }
 
+            Console.WriteLine(path.Count);
             return path;
         }
 
-        public void TestGetChildren()
+        int HeuristicEstimation(State candidate)
         {
+            int wrongCellCount = 0;
+            for (int i = 0; i < xFieldSize; i++)
+            {
+                for (int j = 0; j < yFieldSize; j++)
+                {
+                    wrongCellCount = candidate[i, j] == target[i, j] ? wrongCellCount : wrongCellCount + 1;
+                }
+            }
 
+            return wrongCellCount;
         }
     }
 }
