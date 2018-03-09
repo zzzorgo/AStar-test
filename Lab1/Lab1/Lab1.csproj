@@ -68,9 +68,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="model\Game.cs" />
-    <Compile Include="model\Input.cs" />
-    <Compile Include="model\State.cs" />
+    <Compile Include="Model\Game\Game.cs" />
+    <Compile Include="Model\Game\Path.cs" />
+    <Compile Include="Model\Input.cs" />
+    <Compile Include="Model\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +98,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

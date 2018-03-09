@@ -1,4 +1,5 @@
-﻿using Lab1.model;
+﻿using Lab1.Model;
+using Lab1.Model.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab1.model
+namespace Lab1.Model.Game
 {
     public class NextStateEventArgs : EventArgs
     {
@@ -16,7 +16,6 @@ namespace Lab1.model
 
         public State State { get; set; }
     }
-
 
     public class Game
     {
@@ -52,7 +51,7 @@ namespace Lab1.model
             Stack<State> stack = new Stack<State>();
             stack.Push(initial);
             
-            Stack<State> path = new Stack<State>();
+            StackPath path = new StackPath();
 
             for (int i = 0; stack.Count != 0; i++)
             {
