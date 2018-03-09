@@ -68,8 +68,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Game\AStar\AStarGame.cs" />
+    <Compile Include="Model\Game\CandidateStack.cs" />
+    <Compile Include="Model\Game\DepthSearch\DepthSearchGame.cs" />
     <Compile Include="Model\Game\Game.cs" />
-    <Compile Include="Model\Game\Path.cs" />
+    <Compile Include="Model\Game\PathStack.cs" />
     <Compile Include="Model\Input.cs" />
     <Compile Include="Model\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

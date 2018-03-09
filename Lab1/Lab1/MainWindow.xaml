@@ -14,7 +14,6 @@
         </Grid.ColumnDefinitions>
         <Grid x:Name="gameField" Grid.Column="0">
         </Grid>
-        <Grid x:Name="targetField" Grid.Column="2">
-        </Grid>
+        <Grid x:Name="targetField" Grid.Column="2"/>
     </Grid>
 </Window>

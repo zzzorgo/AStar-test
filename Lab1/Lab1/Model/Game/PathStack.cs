@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Model.Game
 {
-    class StackPath : Stack<State>
+    public class PathStack : Stack<State>
     {
-
     }
 }

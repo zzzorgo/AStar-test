@@ -17,19 +17,27 @@ namespace Lab1.Model.Game
         public State State { get; set; }
     }
 
-    public class Game
+    public abstract class Game
     {
         public event EventHandler<NextStateEventArgs> NextStateReady;
 
-        int xFieldSize;
-        int yFieldSize;
+        protected int xFieldSize;
+        protected int yFieldSize;
 
-        State initial;
-        State target;
-        State current;
+        protected State initial;
+        protected State target;
+        protected State current;
 
         public State Current { get { return current; } }
         public State Target { get { return target; } }
+
+        protected PathStack path = new PathStack();
+        protected CandidateStack stack = new CandidateStack();
+
+        protected void ThrowNextStateReady()
+        {
+            NextStateReady(this, new NextStateEventArgs(current));
+        }
 
         public Game(int xFieldSize, int yFieldSize)
         {
@@ -45,51 +53,6 @@ namespace Lab1.Model.Game
             current = new State(rawInitial);
         }
 
-        public Stack<State> Start()
-        {
-            State result = new State(new bool[xFieldSize, yFieldSize]);
-            Stack<State> stack = new Stack<State>();
-            stack.Push(initial);
-            
-            StackPath path = new StackPath();
-
-            for (int i = 0; stack.Count != 0; i++)
-            {
-                State nextState = stack.Pop();
-                NextStateReady(this, new NextStateEventArgs(nextState));
-                if (nextState == target)
-                {
-                    break;
-                }   
-                else
-                {
-                    path.Push(nextState);
-                    foreach (State state in nextState.Children)
-                    {
-                        if (!path.Contains(state))
-                        {
-                            stack.Push(state);
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine(path.Count);
-            return path;
-        }
-
-        int HeuristicEstimation(State candidate)
-        {
-            int wrongCellCount = 0;
-            for (int i = 0; i < xFieldSize; i++)
-            {
-                for (int j = 0; j < yFieldSize; j++)
-                {
-                    wrongCellCount = candidate[i, j] == target[i, j] ? wrongCellCount : wrongCellCount + 1;
-                }
-            }
-
-            return wrongCellCount;
-        }
+        public abstract Stack<State> Start();
     }
 }

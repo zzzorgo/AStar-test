@@ -23,12 +23,12 @@ namespace Lab1.Model
         public int Y1 { get; }
     }
 
-    public class State : IEnumerable<bool>
+    public class State : IEnumerable<bool>, IComparable
     {
         bool[,] state;
 
-        int xSize;
-        int ySize;
+        protected int xSize;
+        protected int ySize;
 
         List<State> children;
         public List<State> Children {
@@ -53,6 +53,9 @@ namespace Lab1.Model
                 return children;
             }
         }
+
+        public int Value { get; set; }
+        public State Parent { get; set; }
 
         public State(bool[,] state)
         {
@@ -140,12 +143,19 @@ namespace Lab1.Model
             return state.GetEnumerator();
         }
 
+        public int CompareTo(object obj)
+        {
+            return Value.CompareTo(((State)obj).Value);
+        }
+
         public static bool operator == (State x, State y)
         {
+            if (ReferenceEquals(x, y)) { return true; }
             return x.Equals(y);
         }
         public static bool operator != (State x, State y)
         {
+            if (ReferenceEquals(x, y)) { return false; }
             return !x.Equals(y);
         }
     }

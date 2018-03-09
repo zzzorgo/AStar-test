@@ -23,7 +23,7 @@ namespace Lab1
     public partial class MainWindow : Window
     {
         int xSize = 4;
-        int ySize = 3;
+        int ySize = 4;
 
         public MainWindow()
         {
@@ -59,7 +59,7 @@ namespace Lab1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Game game = new Game(xSize, ySize);
+            Game game = new AStarGame(xSize, ySize);
             game.NextStateReady += Game_NextStateReady;
 
             ShowState(game.Current, gameField.Children);
