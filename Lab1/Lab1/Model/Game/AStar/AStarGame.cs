@@ -11,7 +11,7 @@ namespace Lab1.Model.Game
         int FROM_PARENT_TO_CHILD_VALUE = 1;
         List<State> pathList = new List<State>();
 
-        public AStarGame(int xFieldSize, int yFieldSize) : base(xFieldSize, yFieldSize)
+        public AStarGame(int xFieldSize, int yFieldSize, GamePreset gamePreset) : base(xFieldSize, yFieldSize, gamePreset)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Lab1.Model.Game
             {
                 current = stack.Min<State>();
                 stack.Remove(current);
-                ThrowNextStateReady();
+                ThrowNextStateReady(i);
 
                 if (current == target)
                 {
@@ -65,18 +65,62 @@ namespace Lab1.Model.Game
         }
 
 
-        int HeuristicEstimation(State candidate)
+        double HeuristicEstimation(State candidate)
         {
-            int wrongCellCount = 0;
-            for (int i = 0; i < xFieldSize; i++)
+            double result = 0;
+            int i = 0, j = 0;
+            foreach (bool cell1 in candidate)
             {
-                for (int j = 0; j < yFieldSize; j++)
+                if (cell1)
                 {
-                    wrongCellCount = candidate[i, j] == target[i, j] ? wrongCellCount : wrongCellCount + 1;
+                    foreach (bool cell2 in target)
+                    {
+                        if (cell2)
+                        {
+                            break;
+                        }
+                        j++;
+                    }
+
+                    int x1 = i / xFieldSize;
+                    int y1 = i - x1 * xFieldSize;
+
+                    int x2 = j / xFieldSize;
+                    int y2 = j - x2 * xFieldSize;
+
+                    result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
                 }
+                i++;
             }
 
-            return wrongCellCount;
+            return result;
+
+            //for (int x1 = 0, x2 = 0; x1 < xFieldSize; x1++)
+            //{
+            //    for (int y1 = 0, y2 = 0; y1 < yFieldSize; y1++)
+            //    {
+            //        if (candidate[x1, y1])
+            //        {
+            //            for (; x2 < xFieldSize; x2++)
+            //            {
+            //                for (; y2 < yFieldSize; y2++)
+            //                {
+            //                    if (target[x2, y2])
+            //                    {
+            //                        y2++;
+            //                        break;
+            //                    }
+            //                }
+            //                if (y2 >= yFieldSize || target[x2, y2])
+            //                {
+            //                    x2++;
+            //                    break;
+            //                }
+            //            }
+            //            result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+            //        }
+            //    }
+            //}
         }
 
         void ReconstructPath()

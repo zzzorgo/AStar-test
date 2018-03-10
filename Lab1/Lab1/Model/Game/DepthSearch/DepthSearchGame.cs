@@ -8,7 +8,7 @@ namespace Lab1.Model.Game
 {
     class DepthSearchGame : Game
     {
-        public DepthSearchGame(int xFieldSize, int yFieldSize) : base(xFieldSize, yFieldSize)
+        public DepthSearchGame(int xFieldSize, int yFieldSize, GamePreset gamePreset) : base(xFieldSize, yFieldSize, gamePreset)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Lab1.Model.Game
             for (int i = 0; stack.Count != 0; i++)
             {
                 current = stack.Pop();
-                ThrowNextStateReady();
+                ThrowNextStateReady(i);
                 if (current == target)
                 {
                     break;
@@ -37,7 +37,6 @@ namespace Lab1.Model.Game
                 }
             }
 
-            Console.WriteLine(path.Count);
             return path;
         }
     }

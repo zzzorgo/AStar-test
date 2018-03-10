@@ -30,6 +30,9 @@ namespace Lab1.Model
         protected int xSize;
         protected int ySize;
 
+        public int XSize { get { return xSize; } }
+        public int YSize { get { return ySize; } }
+
         List<State> children;
         public List<State> Children {
             get
@@ -54,7 +57,7 @@ namespace Lab1.Model
             }
         }
 
-        public int Value { get; set; }
+        public double Value { get; set; }
         public State Parent { get; set; }
 
         public State(bool[,] state)

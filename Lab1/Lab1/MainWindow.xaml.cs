@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,13 +23,17 @@ namespace Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int xSize = 4;
+        int xSize = 3;
         int ySize = 4;
+
+        const String ITERATION_PREFIX = "Количество итераций поиска: {0}";
+        const String PATH_LENGTH_PREFIX = "Длина пути: {0}";
 
         public MainWindow()
         {
             InitializeComponent();
-            InitField(gameField);
+            InitField(aStarGameField);
+            InitField(depthSearchGameField);
             InitField(targetField);
         }
 
@@ -59,18 +64,45 @@ namespace Lab1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Game game = new AStarGame(xSize, ySize);
-            game.NextStateReady += Game_NextStateReady;
+            GamePreset gamePreset = new GamePreset(xSize, ySize);
 
-            ShowState(game.Current, gameField.Children);
-            ShowState(game.Target, targetField.Children);
+            Game aStarGame = new AStarGame(xSize, ySize, gamePreset);
+            aStarGame.NextStateReady += aStarGame_NextStateReady;
 
-            Task.Run(() => game.Start());
+            Game depthSearchGame = new DepthSearchGame(xSize, ySize, gamePreset);
+            depthSearchGame.NextStateReady += depthSearchGame_NextStateReady;
+     
+            ShowState(depthSearchGame.Target, targetField.Children);
+
+            Task<Stack<State>> aStarPath = Task.Run(() => aStarGame.Start());
+            aStarPath.ContinueWith((path) =>
+                Dispatcher.Invoke(() =>
+                    aStarPathLength.Text = String.Format(PATH_LENGTH_PREFIX, path.Result.Count)
+            ));
+
+            Task<Stack<State>> depthPath = Task.Run(() => depthSearchGame.Start());
+            depthPath.ContinueWith((path) =>
+                Dispatcher.Invoke( () =>
+                    depthSearchPathLength.Text = String.Format(PATH_LENGTH_PREFIX, path.Result.Count)
+            ));
         }
 
-        private void Game_NextStateReady(object sender, NextStateEventArgs e)
+        private void aStarGame_NextStateReady(object sender, NextStateEventArgs e)
         {
-            Dispatcher.Invoke(() => ShowState(e.State, gameField.Children));
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ShowState(e.State, aStarGameField.Children);
+                aStarIterations.Text = String.Format(ITERATION_PREFIX, e.Iterations);
+            })); 
+        }
+
+        private void depthSearchGame_NextStateReady(object sender, NextStateEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ShowState(e.State, depthSearchGameField.Children);
+                depthSearchIterations.Text = String.Format(ITERATION_PREFIX, e.Iterations);
+            }));
         }
 
         private void ShowState(State state, UIElementCollection field)
