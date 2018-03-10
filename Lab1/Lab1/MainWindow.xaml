@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1000" Loaded="Window_Loaded">
+        Title="MainWindow" 
+        Height="500" Width="1000" 
+        Loaded="Window_Loaded"
+        Left="0" Top="0">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -14,6 +17,10 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -26,10 +33,10 @@
                     FontSize="24">
                         A*
                 </TextBlock>
-                <TextBlock x:Name="aStarIterations" FontSize="10">
-                    Количество итераций поиска:
+                <TextBlock x:Name="aStarIterations" FontSize="10" Foreground="#FF636363">
+                    Количество итераций поиска: 0
                 </TextBlock>
-                <TextBlock x:Name="aStarPathLength" FontSize="10">
+                <TextBlock x:Name="aStarPathLength" FontSize="10" Foreground="#FF636363">
                     Длина пути: 0
                 </TextBlock>
             </StackPanel>
@@ -47,10 +54,10 @@
                     FontSize="24">
                         Поиск в глубину
                 </TextBlock>
-                <TextBlock x:Name="depthSearchIterations" FontSize="10">
+                <TextBlock x:Name="depthSearchIterations" FontSize="10" Foreground="#FF636363">
                     Количество итераций поиска: 0
                 </TextBlock>
-                <TextBlock x:Name="depthSearchPathLength" FontSize="10">
+                <TextBlock x:Name="depthSearchPathLength" FontSize="10" Foreground="#FF636363">
                     Длина пути: 0
                 </TextBlock>
             </StackPanel>
@@ -68,14 +75,19 @@
                     FontSize="24">
                         Цель
                 </TextBlock>
-                <TextBlock FontSize="10">
+                <TextBlock FontSize="10" Foreground="#FF636363">
                     Количество итераций поиска: 0
                 </TextBlock>
-                <TextBlock FontSize="10">
+                <TextBlock FontSize="10" Foreground="#FF636363">
                     Длина пути: 0
                 </TextBlock>
             </StackPanel>
             <Grid x:Name="targetField"  Grid.Row="1"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="5" Margin="10">
+            <Button HorizontalAlignment="Center" Click="Button_Click">
+                Новая игра
+            </Button>
         </Grid>
     </Grid>
 </Window>

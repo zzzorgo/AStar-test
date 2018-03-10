@@ -69,24 +69,27 @@ namespace Lab1.Model.Game
         {
             double result = 0;
             int i = 0, j = 0;
+            List<bool> targetList = target.ToList();
             foreach (bool cell1 in candidate)
             {
                 if (cell1)
                 {
-                    foreach (bool cell2 in target)
+                    for (; j < targetList.Count; j++)
                     {
-                        if (cell2)
+                        if (targetList[j])
                         {
                             break;
                         }
                         j++;
                     }
 
-                    int x1 = i / xFieldSize;
-                    int y1 = i - x1 * xFieldSize;
+                    int y1 = i / yFieldSize;
+                    int x1 = i - y1 * yFieldSize;
 
-                    int x2 = j / xFieldSize;
-                    int y2 = j - x2 * xFieldSize;
+                    int y2 = j / yFieldSize;
+                    int x2 = j - y2 * yFieldSize;
+
+                    j++;
 
                     result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
                 }
@@ -94,33 +97,6 @@ namespace Lab1.Model.Game
             }
 
             return result;
-
-            //for (int x1 = 0, x2 = 0; x1 < xFieldSize; x1++)
-            //{
-            //    for (int y1 = 0, y2 = 0; y1 < yFieldSize; y1++)
-            //    {
-            //        if (candidate[x1, y1])
-            //        {
-            //            for (; x2 < xFieldSize; x2++)
-            //            {
-            //                for (; y2 < yFieldSize; y2++)
-            //                {
-            //                    if (target[x2, y2])
-            //                    {
-            //                        y2++;
-            //                        break;
-            //                    }
-            //                }
-            //                if (y2 >= yFieldSize || target[x2, y2])
-            //                {
-            //                    x2++;
-            //                    break;
-            //                }
-            //            }
-            //            result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
-            //        }
-            //    }
-            //}
         }
 
         void ReconstructPath()

@@ -23,7 +23,7 @@ namespace Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int xSize = 3;
+        int xSize = 4;
         int ySize = 4;
 
         const String ITERATION_PREFIX = "Количество итераций поиска: {0}";
@@ -65,14 +65,20 @@ namespace Lab1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             GamePreset gamePreset = new GamePreset(xSize, ySize);
+            StartAllGames(gamePreset);
+        }
 
+        private void StartAllGames(GamePreset gamePreset)
+        {
             Game aStarGame = new AStarGame(xSize, ySize, gamePreset);
             aStarGame.NextStateReady += aStarGame_NextStateReady;
 
             Game depthSearchGame = new DepthSearchGame(xSize, ySize, gamePreset);
             depthSearchGame.NextStateReady += depthSearchGame_NextStateReady;
-     
-            ShowState(depthSearchGame.Target, targetField.Children);
+
+            ShowState(gamePreset.Target, targetField.Children);
+            ShowState(gamePreset.Initial, aStarGameField.Children);
+            ShowState(gamePreset.Initial, depthSearchGameField.Children);
 
             Task<Stack<State>> aStarPath = Task.Run(() => aStarGame.Start());
             aStarPath.ContinueWith((path) =>
@@ -82,8 +88,8 @@ namespace Lab1
 
             Task<Stack<State>> depthPath = Task.Run(() => depthSearchGame.Start());
             depthPath.ContinueWith((path) =>
-                Dispatcher.Invoke( () =>
-                    depthSearchPathLength.Text = String.Format(PATH_LENGTH_PREFIX, path.Result.Count)
+                Dispatcher.Invoke(() =>
+                   depthSearchPathLength.Text = String.Format(PATH_LENGTH_PREFIX, path.Result.Count)
             ));
         }
 
@@ -120,6 +126,11 @@ namespace Lab1
                     ((Rectangle)field[i]).Fill = Brushes.Black;
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            StartAllGames(new GamePreset(xSize, ySize));
         }
     }
 
