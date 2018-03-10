@@ -53,11 +53,11 @@ namespace Lab1
             {
                 for (int j = 0; j < ySize; j++)
                 {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Height = rectangle.Width = 44;
-                    field.Children.Add(rectangle);
-                    Grid.SetColumn(rectangle, i);
-                    Grid.SetRow(rectangle, j);
+                    Ellipse cell = new Ellipse();
+                    cell.Height = cell.Width = 44;
+                    field.Children.Add(cell);
+                    Grid.SetColumn(cell, i);
+                    Grid.SetRow(cell, j);
                 }
             }
         }
@@ -119,11 +119,11 @@ namespace Lab1
             {
                 if (rawStateAsList[i])
                 {
-                    ((Rectangle)field[i]).Fill = Brushes.Red;
+                    ((Shape)field[i]).Fill = Brushes.Red;
                 }
                 else
                 {
-                    ((Rectangle)field[i]).Fill = Brushes.Black;
+                    ((Shape)field[i]).Fill = Brushes.Black;
                 }
             }
         }
