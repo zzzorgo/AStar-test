@@ -92,29 +92,31 @@ namespace Lab1.Model.Game
                     if (candidate[i, j] && !target[i, j])
                     {
                         wrongCellCoordinates.Add(new Point(i, j));
-                        targetList[j * xFieldSize + i] = null;
+                        targetList[i * yFieldSize + j] = null;
                     }
                     else if (!target[i, j] || (candidate[i, j] && target[i, j]))
                     {
-                        targetList[j * xFieldSize + i] = null;
+                        targetList[i * yFieldSize + j] = null;
                     }
                 }
             }
 
-            for (int i = 0, j = 0; i < wrongCellCoordinates.Count; i++)
+            for (int i = 0; i < wrongCellCoordinates.Count; i++)
             {
-                while (targetList[j] == null)
+                double min = Double.MaxValue;
+                int minIndex = 0;
+                int flatIndex = wrongCellCoordinates[i].Y * xFieldSize + wrongCellCoordinates[i].X;
+                for (int j = 0; j < targetList.Count; j++)
                 {
-                    j++;
+                    if (targetList[j] != null && distances[flatIndex][j] < min)
+                    {
+                        min = distances[flatIndex][j];
+                        minIndex = j;
+                    }
                 }
 
-                int y1 = wrongCellCoordinates[i].X;
-                int x1 = wrongCellCoordinates[i].Y;
-                int y2 = j / xFieldSize;
-                int x2 = j - y2 * xFieldSize;
-
-                targetList[j] = null;
-                result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+                targetList[minIndex] = null;
+                result += distances[flatIndex][minIndex];
             }
 
             return result;

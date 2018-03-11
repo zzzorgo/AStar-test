@@ -24,7 +24,7 @@ namespace Lab1
     public partial class MainWindow : Window
     {
         int xSize = 3;
-        int ySize = 4;
+        int ySize = 3;
 
         const String ITERATION_PREFIX = "Количество итераций поиска: {0}";
         const String PATH_LENGTH_PREFIX = "Длина пути: {0}";
