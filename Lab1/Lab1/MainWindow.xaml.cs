@@ -23,11 +23,14 @@ namespace Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int xSize = 3;
-        int ySize = 3;
+        int xSize = 4;
+        int ySize = 4;
 
         const String ITERATION_PREFIX = "Количество итераций поиска: {0}";
         const String PATH_LENGTH_PREFIX = "Длина пути: {0}";
+
+        const double CELL_SIZE_PX = 44;
+        const double CELL_BOX_SIZE_PX = CELL_SIZE_PX + 4;
 
         public MainWindow()
         {
@@ -41,11 +44,15 @@ namespace Lab1
         {
             for (int i = 0; i < xSize; i++)
             {
+                ColumnDefinition column = new ColumnDefinition();
+                column.Width = new GridLength(CELL_BOX_SIZE_PX);
                 field.ColumnDefinitions.Add(new ColumnDefinition());
 
             }
             for (int j = 0; j < ySize; j++)
             {
+                RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(CELL_BOX_SIZE_PX);
                 field.RowDefinitions.Add(new RowDefinition());
             }
 
@@ -54,7 +61,7 @@ namespace Lab1
                 for (int j = 0; j < ySize; j++)
                 {
                     Ellipse cell = new Ellipse();
-                    cell.Height = cell.Width = 44;
+                    cell.Height = cell.Width = CELL_SIZE_PX;
                     field.Children.Add(cell);
                     Grid.SetColumn(cell, i);
                     Grid.SetRow(cell, j);

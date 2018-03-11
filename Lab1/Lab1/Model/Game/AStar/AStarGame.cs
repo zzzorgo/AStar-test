@@ -66,7 +66,16 @@ namespace Lab1.Model.Game
 
                         if (!alreadyContains)
                         {
-                            stack.Push(state);
+                            State sameState = stack.Select(s => s).Where(s => s == state).SingleOrDefault();
+                            if (sameState != null && state.Value < sameState.Value)
+                            {
+                                sameState.Parent = state.Parent;
+                                sameState.Value = state.Value;
+                            }
+                            else if (sameState == null)
+                            {
+                                stack.Push(state);
+                            }
                         }
                     }
                 }
