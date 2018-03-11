@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace Lab1.Model
 {
-    //class Point
-    //{
-    //    public Point(int x, int y)
-    //    {
-    //        X = x;
-    //        Y = y;
-    //    }
-
-    //    public int X { get; set; }
-    //    public int Y { get; set; }
-    //}
-
     public class Input
     {
         static Random random = new Random();
@@ -51,6 +39,31 @@ namespace Lab1.Model
             }
 
             return new Tuple<bool[,], bool[,]>(newInitialState, newTargetState);
+        }
+
+        public static List<List<double>> CalculateFieldDistances(int xSize, int ySize)
+        {
+            int fieldCapacity = xSize * ySize;
+
+            List<List<double>> distances = new List<List<double>>(fieldCapacity);
+
+            for (int i = 0; i < xSize; i++)
+            {
+                for (int j = 0; j < ySize; j++)
+                {
+                    int index1 = i * ySize + j;
+                    distances.Add(new List<double>(fieldCapacity));
+                    for (int k = 0; k < xSize; k++)
+                    {
+                        for (int l = 0; l < ySize; l++)
+                        {
+                            distances[index1].Add(Math.Sqrt(Math.Pow((i - k), 2) + Math.Pow((j - l), 2)));
+                        }
+                    }
+                }
+            }
+
+            return distances;
         }
     }
 }

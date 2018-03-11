@@ -6,13 +6,27 @@ using System.Threading.Tasks;
 
 namespace Lab1.Model.Game
 {
+    class Point
+    {
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+    }
+
     class AStarGame : Game
     {
         int FROM_PARENT_TO_CHILD_VALUE = 1;
         List<State> pathList = new List<State>();
+        List<List<double>> distances;
 
         public AStarGame(int xFieldSize, int yFieldSize, GamePreset gamePreset) : base(xFieldSize, yFieldSize, gamePreset)
         {
+            distances = Input.CalculateFieldDistances(xFieldSize, yFieldSize);
         }
 
         public override Stack<State> Start()
@@ -68,32 +82,39 @@ namespace Lab1.Model.Game
         double HeuristicEstimation(State candidate)
         {
             double result = 0;
-            int i = 0, j = 0;
-            List<bool> targetList = target.ToList();
-            foreach (bool cell1 in candidate)
+            List<Point> wrongCellCoordinates = new List<Point>();
+            List<bool?> targetList = target.Cast<bool?>().ToList();
+
+            for (int i = 0; i < xFieldSize; i++)
             {
-                if (cell1)
+                for (int j = 0; j < yFieldSize; j++)
                 {
-                    for (; j < targetList.Count; j++)
+                    if (candidate[i, j] && !target[i, j])
                     {
-                        if (targetList[j])
-                        {
-                            break;
-                        }
-                        j++;
+                        wrongCellCoordinates.Add(new Point(i, j));
+                        targetList[j * xFieldSize + i] = null;
                     }
-
-                    int y1 = i / yFieldSize;
-                    int x1 = i - y1 * yFieldSize;
-
-                    int y2 = j / yFieldSize;
-                    int x2 = j - y2 * yFieldSize;
-
-                    j++;
-
-                    result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+                    else if (!target[i, j] || (candidate[i, j] && target[i, j]))
+                    {
+                        targetList[j * xFieldSize + i] = null;
+                    }
                 }
-                i++;
+            }
+
+            for (int i = 0, j = 0; i < wrongCellCoordinates.Count; i++)
+            {
+                while (targetList[j] == null)
+                {
+                    j++;
+                }
+
+                int y1 = wrongCellCoordinates[i].X;
+                int x1 = wrongCellCoordinates[i].Y;
+                int y2 = j / xFieldSize;
+                int x2 = j - y2 * xFieldSize;
+
+                targetList[j] = null;
+                result += Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
             }
 
             return result;

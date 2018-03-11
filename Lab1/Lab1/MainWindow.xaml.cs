@@ -23,7 +23,7 @@ namespace Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int xSize = 4;
+        int xSize = 3;
         int ySize = 4;
 
         const String ITERATION_PREFIX = "Количество итераций поиска: {0}";
