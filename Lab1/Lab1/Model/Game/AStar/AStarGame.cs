@@ -52,27 +52,23 @@ namespace Lab1.Model.Game
                         state.Value = FROM_PARENT_TO_CHILD_VALUE + pathList.Count * FROM_PARENT_TO_CHILD_VALUE + HeuristicEstimation(state);
                         state.Parent = current;
 
-                        bool alreadyContains = false;
+                        State sameStateInPath = pathList.Select(s => s).Where(s => s == state).SingleOrDefault();
 
-                        for (int j = 0; j < pathList.Count; j++)
+                        if (sameStateInPath != null && state.Value < sameStateInPath.Value)
                         {
-                            if (state == pathList[j])
-                            {
-                                pathList[j] = state.Value < pathList[j].Value ? state : pathList[j];
-                                alreadyContains = true;
-                                break;
-                            }
+                            sameStateInPath.Value = state.Value;
+                            sameStateInPath.Parent = state.Parent;
                         }
-
-                        if (!alreadyContains)
+                        else if (sameStateInPath == null)
                         {
-                            State sameState = stack.Select(s => s).Where(s => s == state).SingleOrDefault();
-                            if (sameState != null && state.Value < sameState.Value)
+                            State sameStateInStack = stack.Select(s => s).Where(s => s == state).SingleOrDefault();
+
+                            if (sameStateInStack != null && state.Value < sameStateInStack.Value)
                             {
-                                sameState.Parent = state.Parent;
-                                sameState.Value = state.Value;
+                                sameStateInStack.Parent = state.Parent;
+                                sameStateInStack.Value = state.Value;
                             }
-                            else if (sameState == null)
+                            else if (sameStateInStack == null)
                             {
                                 stack.Push(state);
                             }
